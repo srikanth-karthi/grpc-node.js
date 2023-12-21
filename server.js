@@ -1,7 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = "./news.proto";
 var protoLoader = require("@grpc/proto-loader");
-const { startServer } = require('grpcwebproxy');
+
 const options = {
   keepCase: true,
   longs: String,
@@ -21,17 +21,45 @@ let news = [
 server.addService(newsProto.NewsService.service, {
     getAllNews: (_, callback) => {
       const newsList = { news: news };
+      // console.log('eriufg')
       callback(null, newsList);
     },
+    addNews: (call, callback) => {
+      // console.log(call)
+      const _news = { id: Date.now(), ...call.request };
+      news.push(_news);
+      callback(null, _news);
+    },
+    // deletenews:(call,callback)=>
+    // {
+    //   const valueToRemove = call.request.id
+    //   let newArray = news.filter(element => element.id !== valueToRemove);
+    //   news=newArray;
+    //   callback(null,news);
+    // },
+    deletenews: (call, callback) => {
+      const valueToRemove = call.request.id;
+      const indexToRemove = news.findIndex(element => element.id === valueToRemove);
+    
+      if (indexToRemove !== -1) {
+        const removedNews = news.splice(indexToRemove, 1)[0];
+        callback(null, removedNews); // Return the deleted News item
+      } else {
+        callback({
+          // code: grpc.status.NOT_FOUND,
+          details: 'News not found',
+        });
+      }
+    }
+    
   });
   
 
-  const proxyServer = startServer({
-    serviceName: 'NewsService',
-    protoPath: PROTO_PATH,
-    addr: '0.0.0.0:9090', // Change the address to your desired proxy address
-    grpcServer: server,
-  });
-  
-  proxyServer.start();
-  console.log('gRPC Proxy Server running at http://0.0.0.0:9090');
+  server.bindAsync(
+    "127.0.0.1:50051",
+    grpc.ServerCredentials.createInsecure(),
+    (error, port) => {
+      console.log("Server running at http://127.0.0.1:50051");
+      server.start();
+    }
+  );

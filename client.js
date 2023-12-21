@@ -16,12 +16,4 @@ const client = new NewsService(
     "localhost:50051",
     grpc.credentials.createInsecure()
   );
-  
-  client.getAllNews({}, (error, response) => {
-    if (error) {
-      console.error("Error:", error);
-    } else {
-      console.log("Received news:", response.news);
-    }
-  });
-  
+  module.exports = client;

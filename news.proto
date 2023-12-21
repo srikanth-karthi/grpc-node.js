@@ -6,9 +6,13 @@ message News {
     string body = 3;
     string postImage = 4;
 }
-
+message id{
+    string id=1;
+}
 service NewsService {
     rpc GetAllNews (Empty) returns (NewsList) {}
+        rpc AddNews (News) returns (News) {}
+        rpc deletenews (id) returns (News) {}
 }
 
 message Empty {}
