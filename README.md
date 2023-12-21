@@ -60,6 +60,3 @@ The News Service supports the following gRPC methods:
 
 Contributions are welcome! If you find any issues or would like to suggest improvements, please create an issue or submit a pull request.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
