@@ -27,17 +27,17 @@ app.delete('/deletenews', function(req, res) {
         }
       );
 })
-  client.addNews(
-    {
-      title: "Title news 3",
-      body: "Body content 3",
-      postImage: "Image URL here",
-    },
-    (error, news) => {
-      if (error) throw error;
-      console.log(news)
-      console.log("Successfully created a news.");
-    }
-  );
+app.post('/addnews',(req,res)=>
+{
+    client.addNews(
+        req.body,
+        (error, news) => {
+          if (error) throw error;
+     res.json(news)
+          console.log("Successfully created a news.");
+        }
+      );
+})
+
 
 app.listen(8000)
