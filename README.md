@@ -35,7 +35,7 @@ This is a sample project demonstrating a gRPC-based News Service implemented in 
 
 2. Access the gRPC methods:
 
-   Use a gRPC client to interact with the implemented methods (\`GetAllNews\`, \`AddNews\`, \`DeleteNews\`) provided by the News Service.
+   Use a gRPC client to interact with the implemented methods (\`GetAllNews\`, \`AddNews\`, \`DeleteNews\`) provided by the News Service
 
    Example gRPC client code (Node.js):
 
